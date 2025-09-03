@@ -12,7 +12,8 @@
   }
   canvas {
     background:#000;border:2px solid #444;
-    display:block;margin:auto
+    display:block;margin:auto;
+    touch-action:none;
   }
 </style>
 </head>
@@ -337,8 +338,8 @@ function handleTouch(e){
   paddleX=Math.min(Math.max(touchX-paddleWidth/2,0),canvas.width-paddleWidth);
   e.preventDefault();
 }
-canvas.addEventListener("touchstart",handleTouch);
-canvas.addEventListener("touchmove",handleTouch);
+canvas.addEventListener("touchstart", handleTouch, { passive: false });
+canvas.addEventListener("touchmove", handleTouch, { passive: false });
 </script>
 </body>
 </html>
