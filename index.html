@@ -330,6 +330,15 @@ document.addEventListener("keyup",e=>{
   if(e.key==="ArrowRight") rightPressed=false;
   if(e.key==="ArrowLeft") leftPressed=false;
 });
+// Touch controls for mobile
+function handleTouch(e){
+  const rect=canvas.getBoundingClientRect();
+  const touchX=e.touches[0].clientX-rect.left;
+  paddleX=Math.min(Math.max(touchX-paddleWidth/2,0),canvas.width-paddleWidth);
+  e.preventDefault();
+}
+canvas.addEventListener("touchstart",handleTouch);
+canvas.addEventListener("touchmove",handleTouch);
 </script>
 </body>
 </html>
