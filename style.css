@@ -93,10 +93,12 @@ body {
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+    transform: scale(1.2);
+    transform-origin: center;
 }
 
 .flipper-btn:active {
-    transform: scale(0.95);
+    transform: scale(1.14);
     background: linear-gradient(45deg, #2980b9, #3498db);
 }
 
@@ -117,13 +119,7 @@ body {
 }
 
 .instructions {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 14px;
-    opacity: 0.8;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 8px;
+    display: none;
 }
 
 /* レスポンシブ対応 */
