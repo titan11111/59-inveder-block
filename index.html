@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Space Block Invaders</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -14,6 +15,7 @@
     background:#000;border:2px solid #444;
     display:block;margin:auto;
     touch-action:none;
+    width:100%;max-width:480px;height:auto;
   }
 </style>
 </head>
@@ -144,7 +146,9 @@ function drawButton(label,x,y,w,h,color="#0ff"){
 }
 canvas.addEventListener("click",e=>{
   const rect=canvas.getBoundingClientRect();
-  const mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const mx=(e.clientX-rect.left)*scaleX,my=(e.clientY-rect.top)*scaleY;
   for(const b of buttons){
     if(mx>=b.x&&mx<=b.x+b.w&&my>=b.y&&my<=b.y+b.h){
       if(b.label==="START"){initAudio();startBGM();initInvaders();initBricks();gameState="playing";}
@@ -334,9 +338,25 @@ document.addEventListener("keyup",e=>{
 // Touch controls for mobile
 function handleTouch(e){
   const rect=canvas.getBoundingClientRect();
-  const touchX=e.touches[0].clientX-rect.left;
-  paddleX=Math.min(Math.max(touchX-paddleWidth/2,0),canvas.width-paddleWidth);
-  e.preventDefault();
+  const scaleX=canvas.width/rect.width;
+  const scaleY=canvas.height/rect.height;
+  const touch=e.touches[0];
+  const touchX=(touch.clientX-rect.left)*scaleX;
+  const touchY=(touch.clientY-rect.top)*scaleY;
+
+  for(const b of buttons){
+    if(touchX>=b.x&&touchX<=b.x+b.w&&touchY>=b.y&&touchY<=b.y+b.h){
+      if(b.label==="START"){initAudio();startBGM();initInvaders();initBricks();gameState="playing";}
+      if(b.label==="RESTART"){retryGame();initAudio();startBGM();}
+      e.preventDefault();
+      return;
+    }
+  }
+
+  if(gameState==="playing"){
+    paddleX=Math.min(Math.max(touchX-paddleWidth/2,0),canvas.width-paddleWidth);
+    e.preventDefault();
+  }
 }
 canvas.addEventListener("touchstart", handleTouch, { passive: false });
 canvas.addEventListener("touchmove", handleTouch, { passive: false });
